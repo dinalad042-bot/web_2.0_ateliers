@@ -1,0 +1,33 @@
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nom d'auteur</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for author in authers %}
+        <tr>
+            <td>{{ author.id }}</td>
+            <td>
+                <!-- Le pattern essentiel: path() utilise l'ID de l'auteur pour générer le lien de modification (UPDATE) -->
+                <a href="{{ path('auther_edit', {'id': author.id}) }}">
+                    {{ author.name }}
+                </a>
+            </td>
+            <td>{{ author.email }}</td>
+            <td>
+                {# Lien de suppression, utilisant la fonction path() et l'ID de l'auteur #}
+                <a href="{{ path('author_delete', {'id': author.id}) }}"
+                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet auteur ?')">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    {% else %}
+        <!-- Gère le cas où le tableau est vide [2] -->
+        <tr><td colspan="3">Aucun auteur trouvé.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>

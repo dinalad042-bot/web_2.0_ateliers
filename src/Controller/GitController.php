@@ -43,4 +43,7 @@ public function showAuthor(string $name): Response
     ]);
     // Le tableau des paramètres est envoyé du Controller à Twig [2]
 }
+
+
+
 }

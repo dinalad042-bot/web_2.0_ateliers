@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Livres Publiés{% endblock %}
+
+{% block body %}
+    <h1>Liste des Livres Publiés</h1>
+
+    {# Affichage des statistiques (Figure 3) [2] #}
+
+
+    <hr>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Référence</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Catégorie</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {# Pattern Répétitif : Boucle sur la liste des entités #}
+        {% for book in books %}
+            <tr>
+                <td>{{ book.ref }}</td>
+                <td>{{ book.title }}</td>
+                {# Accéder à la propriété de l'entité Author liée (relation ManyToOne) #}
+                <td>{{ book.auther.name }}</td>
+                <td>{{ book.category }}</td>
+                <td>
+                    {# Liens CRUD demandés dans l'atelier list_view pour le moment! #}
+                    <a href="{{ path('list_view', {'id': book.id}) }}">Edit</a>
+                    <a href="{{ path('list_view', {'id': book.id}) }}">Delete</a>
+                    <a href="{{ path('list_view', {'id': book.id}) }}">Show</a>
+                </td>
+            </tr>
+        {% else %}
+            {# Condition si le tableau est vide (No Books found) [2, 12] #}
+            <tr>
+                <td colspan="5">No Books found</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}

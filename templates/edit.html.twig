@@ -1,0 +1,7 @@
+<h1>Modification de l'auteur : {{ author.username }}</h1>
+
+{{ form_start(formAuthor) }}
+    {{ form_row(formAuthor.username) }}
+    {{ form_row(formAuthor.email) }}
+<button type="submit">Sauvegarder les modifications</button>
+{{ form_end(formAuthor) }}
