@@ -30,8 +30,19 @@ final class BookController extends AbstractController
         $form=$this->createForm(BookType::class,$book);
         $form->handleRequest($req);
 
+
         if ($form->isSubmitted()&& $form->isValid())
             {
+                $book->setPublished(true);
+                $auther = $book->getAuther();
+                if ($auther !== null) {
+                    // Incrémenter le compteur de livres de l'auteur
+                    $currentNbBooks = $auther->getNbBooks();
+                    $auther->setNbBooks($currentNbBooks + 1);
+
+                    // Persister l'auteur mis à jour
+                    $em->persist($auther);
+                }
                 $em->persist($book);
                 $em->flush();
                 return $this->redirectToRoute('list_view');

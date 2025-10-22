@@ -41,12 +41,12 @@ final class AutherController extends AbstractController
         ]);
     }
     #[Route('/auther/edit/{id}', name: 'auther_edit')] // Route dynamique utilisant l'ID [1]
-    public function editAuther(Request $request, EntityManagerInterface $doctrine, Auther $auther): Response
+    public function editAuther(Request $request, EntityManagerInterface $doctrine, $id): Response
     {
 
         // Grâce au Param Converter de Symfony, l'objet $author est injecté et déjà récupéré
         // depuis la base de données via l'ID {id} passé dans l'URL.
-
+        $auther=$doctrine->getRepository(Auther::class)->find($id);
         // 1. Initialisation du Formulaire avec l'objet existant ($author)
         $form = $this->createForm(AutherType::class, $auther); // Le formulaire est pré-rempli [6]
 
@@ -57,7 +57,7 @@ final class AutherController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //$em = $doctrine->getManager(); // Accès au gestionnaire d'entités [4, 8]
-
+            $doctrine->persist($auther);
             // PATTERN CRITIQUE (UPDATE) : Pas besoin de $em->persist($author)
             // L'entité $author est déjà "connue" ou "gérée" par l'Entity Manager puisqu'elle
             // a été récupérée par Doctrine.
